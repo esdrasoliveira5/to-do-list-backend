@@ -1,5 +1,5 @@
 {
-  "name": "teste-express-mysql-heroku",
+  "name": "to-do-list-backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
