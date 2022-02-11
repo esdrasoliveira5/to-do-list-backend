@@ -1,5 +1,6 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const Joi = require('joi');
 
 const { Users } = require('../models');
 
@@ -7,25 +8,45 @@ const secret = process.env.JWT_SECRET;
 const jwtConfig = { expiresIn: '7d', algorithm: 'HS256' };
 
 const createUser = async (name, lastName, email, password) => {
-  const token = jwt.sign({ data: email }, secret, jwtConfig);
+  const { error } = Joi.object({
+    name: Joi.string().not().empty().required(),
+    lastName: Joi.string().not().empty().required(),
+    email: Joi.string().not().empty().required(),
+    password: Joi.string().not().empty().required(),
+  }).validate({ name, lastName, email, password });
 
-  const findEmail = await Users.findOne({ where: { email } });
+  if (error) {
+    return { status: 400, response: { message: error.details[0].message } };
+  }
+  const userExist = await Users.findOne({ where: { email } });
+  if (userExist !== null) return { status: 400, response: { message: 'User alreddy exists' } };
 
-  const passwordHash = jwt.sign({ data: password }, secret, { algorithm: 'HS256' });
+  await Users.create({ name, lastName, email, password });
 
-  await Users.create({ name, lastName, email, password: passwordHash });
-
-  return { status: 201, response: { message: 'Usuario criado' } };
+  const token = jwt.sign({ data: email, password }, secret, jwtConfig);
+  
+  return { status: 201, response: token };
 };
 
 const loginUser = async (email, password) => {
-  const token = jwt.sign({ data: email }, secret, jwtConfig);
+  const { error } = Joi.object({
+    email: Joi.string().not().empty().required(),
+    password: Joi.string().not().empty().required(),
+  }).validate({ email, password });
+
+  if (error) {
+    return { status: 400, response: { message: error.details[0].message } };
+  }
+
+  const userExists = await Users.findOne({ where: { email } });
+  if (userExists === null) return { status: 400, response: { message: 'User not found' } };
   
-  const passwordHash = jwt.sign({ data: password }, secret, { algorithm: 'HS256' });
+  if (userExists.dataValues.password !== password) {
+    return { status: 400, response: { message: 'Wrong Password' } };
+  }
+  const token = jwt.sign({ data: email, password }, secret, jwtConfig);
 
-  const user = await Users.findOne({ where: { email } });
-
-  return { status: 201, response: { message: 'Usuario criado' } };
+  return { status: 202, response: token };
 };
 
 module.exports = {
