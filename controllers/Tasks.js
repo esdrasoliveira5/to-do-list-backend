@@ -9,6 +9,15 @@ const createTasks = async (req, res) => {
   return res.status(status).json(response);
 };
 
+const getAllTasks = async (req, res) => {
+  const { authorization } = req.headers;
+
+  const { status, response } = await Tasks.getAllTasks(authorization);
+  
+  return res.status(status).json(response);
+};
+
 module.exports = {
   createTasks,
+  getAllTasks,
 };

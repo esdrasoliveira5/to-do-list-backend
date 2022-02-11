@@ -1,7 +1,7 @@
 require('dotenv').config();
 const Joi = require('joi');
 
-const { Tasks } = require('../models');
+const { Tasks, Users } = require('../models');
 const isTokenValid = require('../helpers/isTokenValid');
 
 const createTasks = async ({ token, title, description, priority, dateLimit }) => {
@@ -25,6 +25,20 @@ const createTasks = async ({ token, title, description, priority, dateLimit }) =
   return { status: 200, response: task };
 };
 
+const getAllTasks = async (token) => {
+  const validToken = await isTokenValid(token);
+
+  if (validToken.status) return validToken;
+
+  const allTasks = await Tasks.findAll({
+    where: { userId: validToken.id },
+    include: { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+  });
+
+  return { status: 200, response: allTasks };
+};
+
 module.exports = {
   createTasks,
+  getAllTasks,
 };
