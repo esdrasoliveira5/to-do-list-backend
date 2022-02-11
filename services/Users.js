@@ -2,7 +2,8 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 
-const { Users } = require('../models');
+const { Users, Tasks } = require('../models');
+const isTokenValid = require('../helpers/isTokenValid');
 
 const secret = process.env.JWT_SECRET;
 const jwtConfig = { expiresIn: '7d', algorithm: 'HS256' };
@@ -23,7 +24,7 @@ const createUser = async (name, lastName, email, password) => {
 
   await Users.create({ name, lastName, email, password });
 
-  const token = jwt.sign({ data: email, password }, secret, jwtConfig);
+  const token = jwt.sign({ data: email }, secret, jwtConfig);
   
   return { status: 201, response: token };
 };
@@ -44,12 +45,48 @@ const loginUser = async (email, password) => {
   if (userExists.dataValues.password !== password) {
     return { status: 400, response: { message: 'Wrong Password' } };
   }
-  const token = jwt.sign({ data: email, password }, secret, jwtConfig);
+  const token = jwt.sign({ data: email }, secret, jwtConfig);
 
   return { status: 202, response: token };
+};
+
+const getUser = async (token, id) => {
+  const validToken = isTokenValid(token);
+  const { error } = Joi.object({
+    id: Joi.number().not().empty().required(),
+  }).validate({ id });
+
+  if (validToken.status) return validToken;
+  if (error) {
+    return { status: 400, response: { message: error.details[0].message } };
+  }
+
+  const user = await Users.findOne({
+    where: { id },
+    include: [{ model: Tasks, as: 'tasks' }],
+  });
+  if (user === null) return { status: 404, response: { message: 'User does not exist' } };
+
+  return { status: 200, response: user.dataValues };
+};
+
+const updateUser = async (token, name, lastName, password) => {
+  const validToken = await isTokenValid(token);
+  const { error } = Joi.object({
+    name: Joi.string().not().empty().required(),
+    lastName: Joi.string().not().empty().required(),
+    password: Joi.string().not().empty().required(),
+  }).validate({ name, lastName, password });
+
+  if (validToken.status) return validToken;
+  if (error) {
+    return { status: 400, response: { message: error.details[0].message } };
+  }
 };
 
 module.exports = {
   createUser,
   loginUser,
+  updateUser,
+  getUser,
 };
