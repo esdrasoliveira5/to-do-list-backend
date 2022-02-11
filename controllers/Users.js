@@ -18,9 +18,8 @@ const loginUser = async (req, resp) => {
 
 const getUser = async (req, resp) => {
   const { authorization } = req.headers;
-  const { id } = req.params;
   
-  const { status, response } = await Users.loginUser(authorization, id);
+  const { status, response } = await Users.getUser(authorization);
   
   return resp.status(status).json(response);
 };

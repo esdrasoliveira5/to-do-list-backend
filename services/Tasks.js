@@ -4,7 +4,7 @@ const Joi = require('joi');
 const { Tasks } = require('../models');
 const isTokenValid = require('../helpers/isTokenValid');
 
-const createTasks = async (token, title, description, priority, dateLimit) => {
+const createTasks = async ({ token, title, description, priority, dateLimit }) => {
   const validToken = await isTokenValid(token);
   const { error } = Joi.object({
     title: Joi.string().not().empty().required(),

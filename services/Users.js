@@ -50,24 +50,18 @@ const loginUser = async (email, password) => {
   return { status: 202, response: token };
 };
 
-const getUser = async (token, id) => {
-  const validToken = isTokenValid(token);
-  const { error } = Joi.object({
-    id: Joi.number().not().empty().required(),
-  }).validate({ id });
+const getUser = async (token) => {
+  const validToken = await isTokenValid(token);
 
   if (validToken.status) return validToken;
-  if (error) {
-    return { status: 400, response: { message: error.details[0].message } };
-  }
 
   const user = await Users.findOne({
-    where: { id },
-    include: [{ model: Tasks, as: 'tasks' }],
+    where: { id: validToken.id },
+    include: { model: Tasks, as: 'tasks' },
   });
   if (user === null) return { status: 404, response: { message: 'User does not exist' } };
 
-  return { status: 200, response: user.dataValues };
+  return { status: 200, response: user };
 };
 
 const updateUser = async (token, name, lastName, password) => {
