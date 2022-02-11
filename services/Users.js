@@ -76,6 +76,9 @@ const updateUser = async (token, name, lastName, password) => {
   if (error) {
     return { status: 400, response: { message: error.details[0].message } };
   }
+  await Users.update({ name, lastName, password }, { where: { id: validToken.id } });
+
+    return { status: 200, response: { name, lastName, password } };
 };
 
 module.exports = {
