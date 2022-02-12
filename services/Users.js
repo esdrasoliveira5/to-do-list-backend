@@ -45,7 +45,7 @@ const loginUser = async (email, password) => {
   }
   const token = jwt.sign({ data: email }, secret, jwtConfig);
 
-  return { status: 202, response: token };
+  return { status: 202, response: { userId: userExists.dataValues.id, token } };
 };
 
 const getUser = async (token) => {
