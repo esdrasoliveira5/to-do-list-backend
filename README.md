@@ -9,8 +9,8 @@ https://to-do-list-back-end-3456.herokuapp.com/user
 ## POST /login - Retorna um token quando enviando um email e uma password pelo body da requisicao.
 https://to-do-list-back-end-3456.herokuapp.com/login
 
-##  GET /user - Retorna um usuario cadastrado quando enviado um token valido peloo header da requisicao.
-https://to-do-list-back-end-3456.herokuapp.com/user
+##  GET /user/:id - Retorna um usuario cadastrado quando enviado um token valido peloo header da requisicao.
+https://to-do-list-back-end-3456.herokuapp.com/user/3
 
 ## PUT /user/:id - Atualiza um usuario cadastrado quando enviado um um id como parametro um token no header e um name, lastName e password pelo body da requisicao.
 https://to-do-list-back-end-3456.herokuapp.com/user/1

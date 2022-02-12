@@ -6,7 +6,7 @@ const Users = require('../controllers/Users');
 const { HandleError } = require('../middlewares/HandleError');
 
 router.post('/', rescue(Users.createUser));
-router.get('/', rescue(Users.getUser));
+router.get('/:id', rescue(Users.getUser));
 router.put('/:id', rescue(Users.updateUser));
 router.delete('/:id', rescue(Users.deleteUser));
 

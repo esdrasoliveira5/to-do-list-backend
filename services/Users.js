@@ -48,13 +48,15 @@ const loginUser = async (email, password) => {
   return { status: 202, response: { userId: userExists.dataValues.id, token } };
 };
 
-const getUser = async (token) => {
+const getUser = async (token, id) => {
   const validToken = await isTokenValid(token);
 
   if (validToken.status) return validToken;
 
+  if (validToken.id !== id) return { status: 401, response: { message: 'Unauthorized user!' } };
+  
   const user = await Users.findOne({
-    where: { id: validToken.id },
+    where: { id },
     include: { model: Tasks, as: 'tasks' },
   });
   if (user === null) return { status: 404, response: { message: 'User does not exist' } };
