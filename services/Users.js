@@ -40,7 +40,7 @@ const loginUser = async (email, password) => {
   }
 
   const userExists = await Users.findOne({ where: { email } });
-  if (userExists === null) return { status: 400, response: { message: 'User not found' } };
+  if (userExists === null) return { status: 400, response: { message: 'User not found!' } };
   
   if (userExists.dataValues.password !== password) {
     return { status: 400, response: { message: 'Wrong Password' } };
@@ -88,9 +88,24 @@ const updateUser = async ({ token, id, name, lastName, password }) => {
   return { status: 200, response: { name, lastName, password } };
 };
 
+const deleteUser = async (token, id) => {
+  const validToken = await isTokenValid(token);
+  if (validToken.status) return validToken;
+
+  const user = await Users.findOne({ where: { id } });
+  if (user === null) return { status: 404, response: { message: 'User not found' } };
+  if (user.email !== validToken.email) {
+    return { status: 401, response: { message: 'Unauthorized user' } };
+  }
+
+  await Users.destroy({ where: { id } });
+  return { status: 200, response: { message: 'User deleted' } };
+};
+
 module.exports = {
   createUser,
   loginUser,
-  updateUser,
   getUser,
+  updateUser,
+  deleteUser,
 };
