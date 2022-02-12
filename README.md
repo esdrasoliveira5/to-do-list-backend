@@ -1,6 +1,6 @@
 # to-do-list-backend
 
-## GET / verifica se a API esta Online
+## GET / - Retorna a mensagem 'Api to-do list online!!'.
 https://to-do-list-back-end-3456.herokuapp.com/
 
 ## POST /user - Retorna um token e cria um usuario quando e enviado um name, lastName email e password pelo body da requisicao. 
