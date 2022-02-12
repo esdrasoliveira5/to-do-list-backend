@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     description: DataTypes.STRING,
     priority: DataTypes.STRING,
-    dateLimit: DataTypes.DATE,
+    dateLimit: DataTypes.DATEONLY,
     userId: DataTypes.INTEGER,
     created: DataTypes.DATE,
   },

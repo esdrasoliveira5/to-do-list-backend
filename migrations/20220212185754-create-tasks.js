@@ -22,7 +22,7 @@ module.exports = {
       },
       dateLimit: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
       },
       userId: {
         type: Sequelize.INTEGER,
