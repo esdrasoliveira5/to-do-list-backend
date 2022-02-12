@@ -7,7 +7,7 @@ const { HandleError } = require('../middlewares/HandleError');
 
 router.post('/', rescue(Users.createUser));
 router.get('/', rescue(Users.getUser));
-router.put('/', rescue(Users.updateUser));
+router.put('/:id', rescue(Users.updateUser));
 
 router.use(HandleError);
 module.exports = router;

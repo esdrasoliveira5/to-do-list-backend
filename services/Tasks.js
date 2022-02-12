@@ -48,21 +48,36 @@ const updateTasks = async ({ token, id, title, description, priority, dateLimit 
     dateLimit: Joi.date().not().empty().required(),
   }).validate({ id, title, description, priority, dateLimit });
 
-  if (error) {
-    return { status: 400, response: { message: error.details[0].message } };
-  }
+  if (error) return { status: 400, response: { message: error.details[0].message } };
   if (validToken.status) return validToken;
-
-  const tasks = await Tasks.findOne({ where: { userId: validToken.id } });
-  if (tasks === null) return { status: 404, response: { message: 'Task not found' } };
   
+  const task = await Tasks.findOne({ where: { id } });
+  if (task === null) return { status: 404, response: { message: 'Task not found' } };
+  if (task.userId !== validToken.id) {
+    return { status: 401, response: { message: 'Unauthorized user' } };
+  }
   await Tasks.update({ title, description, priority, dateLimit }, { where: { id } });
 
   return { status: 200, response: { title, description, priority, dateLimit } };
+};
+
+const deleteTasks = async (token, id) => {
+  const validToken = await isTokenValid(token);
+  if (validToken.status) return validToken;
+
+  const task = await Tasks.findOne({ where: { id } });
+  if (task === null) return { status: 404, response: { message: 'Task not found' } };
+  if (task.userId !== validToken.id) {
+    return { status: 401, response: { message: 'Unauthorized user' } };
+  }
+  await Tasks.destroy({ where: { id } });
+
+  return { status: 200, response: { message: 'Task deleted' } };
 };
 
 module.exports = {
   createTasks,
   getAllTasks,
   updateTasks,
+  deleteTasks,
 };

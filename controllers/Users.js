@@ -25,10 +25,11 @@ const getUser = async (req, resp) => {
 };
 
 const updateUser = async (req, resp) => {
+  const { id } = req.params;
   const { authorization } = req.headers;
   const { name, lastName, password } = req.body;
-  
-  const { status, response } = await Users.updateUser(authorization, name, lastName, password);
+  const values = { token: authorization, id, name, lastName, password };
+  const { status, response } = await Users.updateUser(values);
   
   return resp.status(status).json(response);
 };

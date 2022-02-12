@@ -64,21 +64,28 @@ const getUser = async (token) => {
   return { status: 200, response: user };
 };
 
-const updateUser = async (token, name, lastName, password) => {
+const updateUser = async ({ token, id, name, lastName, password }) => {
   const validToken = await isTokenValid(token);
   const { error } = Joi.object({
+    id: Joi.number().not().empty().required(),
     name: Joi.string().not().empty().required(),
     lastName: Joi.string().not().empty().required(),
     password: Joi.string().not().empty().required(),
-  }).validate({ name, lastName, password });
+  }).validate({ id, name, lastName, password });
 
   if (validToken.status) return validToken;
   if (error) {
     return { status: 400, response: { message: error.details[0].message } };
   }
+
+  const user = await Users.findOne({ where: { id } });
+  if (user === null) return { status: 404, response: { message: 'User not found' } };
+  if (user.email !== validToken.email) {
+    return { status: 401, response: { message: 'Unauthorized user' } };
+  }
   await Users.update({ name, lastName, password }, { where: { id: validToken.id } });
 
-    return { status: 200, response: { name, lastName, password } };
+  return { status: 200, response: { name, lastName, password } };
 };
 
 module.exports = {
