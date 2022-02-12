@@ -23,10 +23,8 @@ const createUser = async (name, lastName, email, password) => {
   if (userExist !== null) return { status: 400, response: { message: 'User alreddy exists' } };
 
   await Users.create({ name, lastName, email, password });
-
-  const token = jwt.sign({ data: email }, secret, jwtConfig);
   
-  return { status: 201, response: token };
+  return { status: 201, response: { message: 'User created' } };
 };
 
 const loginUser = async (email, password) => {
