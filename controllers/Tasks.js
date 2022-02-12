@@ -17,7 +17,26 @@ const getAllTasks = async (req, res) => {
   return res.status(status).json(response);
 };
 
+const updateTasks = async (req, res) => {
+  const { id } = req.params;
+  const { authorization } = req.headers;
+  const { title, description, priority, dateLimit } = req.body;
+  const values = {
+    token: authorization,
+    id,
+    title,
+    description,
+    priority,
+    dateLimit,
+  };
+
+  const { status, response } = await Tasks.updateTasks(values);
+  
+  return res.status(status).json(response);
+};
+
 module.exports = {
   createTasks,
   getAllTasks,
+  updateTasks,
 };

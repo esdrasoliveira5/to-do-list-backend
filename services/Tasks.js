@@ -38,7 +38,31 @@ const getAllTasks = async (token) => {
   return { status: 200, response: allTasks };
 };
 
+const updateTasks = async ({ token, id, title, description, priority, dateLimit }) => {
+  const validToken = await isTokenValid(token);
+  const { error } = Joi.object({
+    id: Joi.number().not().empty().required(),
+    title: Joi.string().not().empty().required(),
+    description: Joi.string().not().empty().required(),
+    priority: Joi.string().not().empty().required(),
+    dateLimit: Joi.date().not().empty().required(),
+  }).validate({ id, title, description, priority, dateLimit });
+
+  if (error) {
+    return { status: 400, response: { message: error.details[0].message } };
+  }
+  if (validToken.status) return validToken;
+
+  const tasks = await Tasks.findOne({ where: { userId: validToken.id } });
+  if (tasks === null) return { status: 404, response: { message: 'Task not found' } };
+  
+  await Tasks.update({ title, description, priority, dateLimit }, { where: { id } });
+
+  return { status: 200, response: { title, description, priority, dateLimit } };
+};
+
 module.exports = {
   createTasks,
   getAllTasks,
+  updateTasks,
 };
