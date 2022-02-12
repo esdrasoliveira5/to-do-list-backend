@@ -53,7 +53,9 @@ const getUser = async (token, id) => {
 
   if (validToken.status) return validToken;
 
-  if (validToken.id !== id) return { status: 401, response: { message: 'Unauthorized user!' } };
+  if (validToken.id !== Number(id)) {
+    return { status: 401, response: { message: 'Unauthorized user!' } };
+  }
   
   const user = await Users.findOne({
     where: { id },
