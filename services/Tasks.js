@@ -1,5 +1,6 @@
 require('dotenv').config();
 const Joi = require('joi');
+const { Op } = require('sequelize');
 
 const { Tasks, Users } = require('../models');
 const isTokenValid = require('../helpers/isTokenValid');
@@ -36,6 +37,20 @@ const getAllTasks = async (token) => {
   });
 
   return { status: 200, response: allTasks };
+};
+
+const getTasks = async (token, id) => {
+  const validToken = await isTokenValid(token);
+
+  if (validToken.status) return validToken;
+
+  const task = await Tasks.findOne({
+    where: { [Op.and]: [{ id }, { userId: validToken.id }] },
+    include: { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+  });
+
+  if (task === null) return { status: 404, response: 'Task not found!' };
+  return { status: 200, response: task };
 };
 
 const updateTasks = async ({ token, id, title, description, priority, dateLimit }) => {
@@ -78,6 +93,7 @@ const deleteTasks = async (token, id) => {
 module.exports = {
   createTasks,
   getAllTasks,
+  getTasks,
   updateTasks,
   deleteTasks,
 };
