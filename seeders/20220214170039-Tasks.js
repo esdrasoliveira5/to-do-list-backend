@@ -10,7 +10,7 @@ module.exports = {
         dateLimit: '2022-02-02',
         userId: '1',
         created: '2022-03-03',
-        category: 1,
+        categoryId: 1,
       },
       {
         title: 'Titulo Teste2',
@@ -19,7 +19,7 @@ module.exports = {
         dateLimit: '2022-02-02',
         userId: '1',
         created: '2022-04-04',
-        category: 2,
+        categoryId: 2,
       },
     ], {}),
 

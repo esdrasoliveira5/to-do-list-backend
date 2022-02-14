@@ -38,8 +38,15 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      category: {
+      categoryId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Categories',
+          key: 'id',
+        },
         defaultValue: 1,
       },
     });

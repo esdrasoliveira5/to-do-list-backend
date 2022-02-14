@@ -38,7 +38,7 @@ const getTasks = async (req, res) => {
 const updateTasks = async (req, res) => {
   const { id } = req.params;
   const { authorization } = req.headers;
-  const { title, description, priority, dateLimit } = req.body;
+  const { title, description, priority, dateLimit, category } = req.body;
   const values = {
     token: authorization,
     id,
@@ -46,6 +46,7 @@ const updateTasks = async (req, res) => {
     description,
     priority,
     dateLimit,
+    category,
   };
 
   const { status, response } = await Tasks.updateTasks(values);

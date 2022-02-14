@@ -27,6 +27,9 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks
 ## GET /tasks/:id - Retorna uma tarefa relacionada a um usuario quando enviado um token valido pelo header da requisicao e o id pelo parametro.
 https://to-do-list-back-end-3456.herokuapp.com/tasks/2
 
+## GET tasks/category/:id - Retorna todas as tarefas de um usuario de acordo com a sua categoria quando enviado o id por parametro e um token valido.
+https://to-do-list-back-end-3456.herokuapp.com/tasks/category/1
+
 ## PUT /tasks/:id - Retorna um tarefa com os dados atualizados qunado enviado enviado um id pelo parametro, um token de autenticacao pelo header e title, description, priority, dateLimit pelo body da requisicao.
 https://to-do-list-back-end-3456.herokuapp.com/tasks/2
 

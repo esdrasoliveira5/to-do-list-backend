@@ -2,7 +2,7 @@ require('dotenv').config();
 const Joi = require('joi');
 const { Op } = require('sequelize');
 
-const { Tasks, Users } = require('../models');
+const { Tasks, Categories } = require('../models');
 const isTokenValid = require('../helpers/isTokenValid');
 
 const createTasks = async ({ token, title, description, priority, dateLimit }) => {
@@ -33,7 +33,7 @@ const getAllTasks = async (token) => {
 
   const allTasks = await Tasks.findAll({
     where: { userId: validToken.id },
-    include: { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+    include: { model: Categories, as: 'categories' },
   });
 
   return { status: 200, response: allTasks };
@@ -46,7 +46,7 @@ const getTasks = async (token, id) => {
 
   const task = await Tasks.findOne({
     where: { [Op.and]: [{ id }, { userId: validToken.id }] },
-    include: { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+    include: { model: Categories, as: 'categories' },
   });
 
   if (task === null) return { status: 404, response: 'Task not found!' };
@@ -60,12 +60,13 @@ const getCategoryTasks = async (token, id) => {
 
   const allConcludedTasks = await Tasks.findAll({
     where: { [Op.and]: [{ category: id }, { userId: validToken.id }] },
+    include: { model: Categories, as: 'categories' },
   });
 
   return { status: 200, response: allConcludedTasks };
 };
 
-const updateTasks = async ({ token, id, title, description, priority, dateLimit }) => {
+const updateTasks = async ({ token, id, title, description, priority, dateLimit, category }) => {
   const validToken = await isTokenValid(token);
   const { error } = Joi.object({
     id: Joi.number().not().empty().required(),
@@ -85,7 +86,7 @@ const updateTasks = async ({ token, id, title, description, priority, dateLimit 
   }
   await Tasks.update({ title, description, priority, dateLimit }, { where: { id } });
 
-  return { status: 200, response: { title, description, priority, dateLimit } };
+  return { status: 200, response: { title, description, priority, dateLimit, category } };
 };
 
 const deleteTasks = async (token, id) => {
