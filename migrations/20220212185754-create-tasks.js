@@ -37,7 +37,11 @@ module.exports = {
       created: {
         allowNull: false,
         type: Sequelize.DATE,
-      }
+      },
+      category: {
+        type: Sequelize.INTEGER,
+        defaultValue: 1,
+      },
     });
   },
   async down(queryInterface, Sequelize) {

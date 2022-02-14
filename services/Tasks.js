@@ -22,7 +22,7 @@ const createTasks = async ({ token, title, description, priority, dateLimit }) =
   const task = await Tasks.create({
      title, description, priority, dateLimit, userId: validToken.id,
     });
-
+  
   return { status: 200, response: task };
 };
 
@@ -53,6 +53,18 @@ const getTasks = async (token, id) => {
   return { status: 200, response: task };
 };
 
+const getCategoryTasks = async (token, id) => {
+  const validToken = await isTokenValid(token);
+
+  if (validToken.status) return validToken;
+
+  const allConcludedTasks = await Tasks.findAll({
+    where: { [Op.and]: [{ category: id }, { userId: validToken.id }] },
+  });
+
+  return { status: 200, response: allConcludedTasks };
+};
+
 const updateTasks = async ({ token, id, title, description, priority, dateLimit }) => {
   const validToken = await isTokenValid(token);
   const { error } = Joi.object({
@@ -67,7 +79,7 @@ const updateTasks = async ({ token, id, title, description, priority, dateLimit 
   if (validToken.status) return validToken;
   
   const task = await Tasks.findOne({ where: { id } });
-  if (task === null) return { status: 404, response: { message: 'Task not found' } };
+  if (task === null) return { status: 404, response: { message: 'Task not found!' } };
   if (task.userId !== validToken.id) {
     return { status: 401, response: { message: 'Unauthorized user' } };
   }
@@ -93,6 +105,7 @@ const deleteTasks = async (token, id) => {
 module.exports = {
   createTasks,
   getAllTasks,
+  getCategoryTasks,
   getTasks,
   updateTasks,
   deleteTasks,

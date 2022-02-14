@@ -17,6 +17,15 @@ const getAllTasks = async (req, res) => {
   return res.status(status).json(response);
 };
 
+const getCategoryTasks = async (req, res) => {
+  const { id } = req.params;
+  const { authorization } = req.headers;
+
+  const { status, response } = await Tasks.getCategoryTasks(authorization, id);
+  
+  return res.status(status).json(response);
+};
+
 const getTasks = async (req, res) => {
   const { id } = req.params;
   const { authorization } = req.headers;
@@ -56,6 +65,7 @@ const deleteTasks = async (req, res) => {
 module.exports = {
   createTasks,
   getAllTasks,
+  getCategoryTasks,
   getTasks,
   updateTasks,
   deleteTasks,

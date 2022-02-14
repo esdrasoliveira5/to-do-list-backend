@@ -6,11 +6,10 @@ module.exports = (sequelize, DataTypes) => {
     dateLimit: DataTypes.DATEONLY,
     userId: DataTypes.INTEGER,
     created: DataTypes.DATE,
+    category: DataTypes.INTEGER,
   },
   {
-    timestamps: true,
-    createdAt: 'created',
-    updatedAt: false,
+    timestamps: true, createdAt: 'created', updatedAt: false,
   });
   Tasks.associate = (models) => {
     Tasks.belongsTo(models.Users,
