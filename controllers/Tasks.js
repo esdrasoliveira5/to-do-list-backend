@@ -35,10 +35,20 @@ const getTasks = async (req, res) => {
   return res.status(status).json(response);
 };
 
+const updateCategoriesTasks = async (req, res) => {
+  const { id } = req.params;
+  const { authorization } = req.headers;
+  const { categoryId } = req.body;
+
+  const { status, response } = await Tasks.updateCategoriesTasks(authorization, id, categoryId);
+  
+  return res.status(status).json(response);
+};
+
 const updateTasks = async (req, res) => {
   const { id } = req.params;
   const { authorization } = req.headers;
-  const { title, description, priority, dateLimit, category } = req.body;
+  const { title, description, priority, dateLimit } = req.body;
   const values = {
     token: authorization,
     id,
@@ -46,7 +56,6 @@ const updateTasks = async (req, res) => {
     description,
     priority,
     dateLimit,
-    category,
   };
 
   const { status, response } = await Tasks.updateTasks(values);
@@ -67,6 +76,7 @@ module.exports = {
   createTasks,
   getAllTasks,
   getCategoryTasks,
+  updateCategoriesTasks,
   getTasks,
   updateTasks,
   deleteTasks,

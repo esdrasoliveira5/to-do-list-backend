@@ -49,7 +49,7 @@ const getTasks = async (token, id) => {
     include: { model: Categories, as: 'categories' },
   });
 
-  if (task === null) return { status: 404, response: 'Task not found!' };
+  if (task === null) return { status: 404, response: 'Task not found' };
   return { status: 200, response: task };
 };
 
@@ -64,6 +64,25 @@ const getCategoryTasks = async (token, id) => {
   });
 
   return { status: 200, response: allConcludedTasks };
+};
+
+const updateCategoriesTasks = async (token, id, categoryId) => {
+  const validToken = await isTokenValid(token);
+  const { error } = Joi.object({
+    categoryId: Joi.number().not().empty().required(),
+  }).validate({ categoryId });
+
+  if (error) return { status: 400, response: { message: error.details[0].message } };
+  if (validToken.status) return validToken;
+  
+  const task = await Tasks.findOne({ where: { id } });
+  if (task === null) return { status: 404, response: { message: 'Task not found!' } };
+  if (task.userId !== validToken.id) {
+    return { status: 401, response: { message: 'Unauthorized user!' } };
+  }
+  await Tasks.update({ categoryId }, { where: { id } });
+
+  return { status: 200, response: { message: 'Task updated' } };
 };
 
 const updateTasks = async ({ token, id, title, description, priority, dateLimit, category }) => {
@@ -107,6 +126,7 @@ module.exports = {
   createTasks,
   getAllTasks,
   getCategoryTasks,
+  updateCategoriesTasks,
   getTasks,
   updateTasks,
   deleteTasks,
