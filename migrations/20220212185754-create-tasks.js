@@ -22,7 +22,7 @@ module.exports = {
       },
       dateLimit: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
       },
       userId: {
         type: Sequelize.INTEGER,
@@ -37,7 +37,18 @@ module.exports = {
       created: {
         allowNull: false,
         type: Sequelize.DATE,
-      }
+      },
+      categoryId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Categories',
+          key: 'id',
+        },
+        defaultValue: 1,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
