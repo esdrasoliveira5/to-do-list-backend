@@ -72,7 +72,6 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks/2
 - Autenticações e Permissões com JWT;
 - Modelagem de Dados e Migrations;
 - Banco de Dados SQL (PostgreSQL);
-- Serialização;
 - Uso de containers (Docker).
 
 ## Pré-requisitos
@@ -106,34 +105,43 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks/2
 
 <br/>
 
-### **Registrar Usuário**
-##### `POST` /api/users
+### **Verifica o estado da Api**
+##### `GET` /
 <br/>
 
-  Esse endpoint registra um usuário e retorna um objeto com alguns dados do usuário e o token de acesso dele.
+  Esse endpoint verifica se a Api esta online e retorna um objeto com a mensagem `Api to-do list online!!`
+
+  - Exemplo `response body`
+    ```json
+    {
+        "message": "Api to-do list online!!"
+    }
+    ```
+  <br/>
+
+### **Registrar Usuário**
+##### `POST` /user
+<br/>
+
+  Esse endpoint registra um usuário e retorna um objeto com a menssagem.
+
   - Exemplo `request body` 
     ``` json
-      {
-        "name": "tiago paz",
-        "email": "tiago22@email.com",
-        "password": "123456",
-      }
+  {
+      "name": "name",
+      "lastName": "lastname",
+      "email": "exemple@email.com",
+      "password": "12345678",
+  }
     ```
 
   - Exemplo `response body`
     ```json
       {
-        {
-          "user": {
-            "name": "tiago paz",
-            "email": "tiago22@email.com",
-            "id": 1
-          },
-          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGlhZ28gcGF6IiwiZW1haWwiOiJ0aWFnbzIyQGVtYWlsLmNvbSIsImlkIjoxLCJpYXQiOjE2MzI4Mzk4NTIsImV4cCI6MTYzMjkyNjI1Mn0.ooXK7rodH3q2hF9OTSpmnfSH0M_ZHNMbm8ws5M7yB0k"
-        }
+        "message": "User created"
       }
     ```
-  <br/>
+<br/>
 
 ### **Login** 
 ##### `POST` /api/users/login
