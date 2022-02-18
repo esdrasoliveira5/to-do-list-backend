@@ -1,11 +1,5 @@
 # to-do-list-backend
 
-## DELETE /user/:id - Retorna a mensagem 'User deleted' e deleta um usuario cadastrado quando enviado um id como parametro e um token valido pelo header da requisicao.
-https://to-do-list-back-end-3456.herokuapp.com/user/1
-
-## POST /tasks - Retorna uma tarefa criada no banco de dados qunado enviado um token no header e um title, description, priority, dateLimit pelo body da requisicao.
-https://to-do-list-back-end-3456.herokuapp.com/tasks
-
 ##  GET /tasks - Retorna todas as tarefas relacionadas a um usuario quando enviado um token. 
 https://to-do-list-back-end-3456.herokuapp.com/tasks
 
@@ -98,9 +92,9 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks/2
 
   - Exemplo `response body`
     ```json
-    {
-        "message": "Api to-do list online!!"
-    }
+      {
+          "message": "Api to-do list online!!"
+      }
     ```
   <br/>
 
@@ -112,12 +106,12 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks/2
 
   - Exemplo `request body` 
     ``` json
-    {
-        "name": "name",
-        "lastName": "lastname",
-        "email": "exemple@email.com",
-        "password": "12345678",
-    }
+      {
+          "name": "name",
+          "lastName": "lastname",
+          "email": "exemple@email.com",
+          "password": "12345678"
+      }
     ```
 
   - Exemplo `response body`
@@ -136,18 +130,18 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks/2
 
   - Exemplo `request body` 
     ``` json
-    {
-        "email": "exemple@email.com",
-        "password": "12345678"
-    }
+      {
+          "email": "exemple@email.com",
+          "password": "12345678"
+      }
     ```
 
   - Exemplo `response body`
     ```json
-    {
-        "userId": 25,
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiZXhlbXBsZUBlbWFpbC5jb20iLCJpYXQiOjE2NDUxNDI0NzksImV4cCI6MTY0NTc0NzI3OX0.sRZtnLnkGYHjhFBXJISTcX41QbvpGxll-wUnU-kGxyE"
-    }
+      {
+          "userId": 26,
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiZXhlbXBsZUBlbWFpbC5jb20iLCJpYXQiOjE2NDUxNDI0NzksImV4cCI6MTY0NTc0NzI3OX0.sRZtnLnkGYHjhFBXJISTcX41QbvpGxll-wUnU-kGxyE"
+      }
     ```
   <br/>
 
@@ -159,22 +153,22 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks/2
 
   - Exemplo `request headers`
       ```json
-    {
-      "Authorization": "(Bearer Token)"
-    }
+      {
+        "Authorization": "(Bearer Token)"
+      }
       ```
 
   - Exemplo `response body`
     ```json
-    {
-        "id": 25,
-        "name": "name",
-        "lastName": "lastname",
-        "email": "exemple@email.com",
-        "password": "12345678",
-        "created": "2022-02-17T23:53:25.727Z",
-        "tasks": []
-    }
+      {
+          "id": 26,
+          "name": "name",
+          "lastName": "lastname",
+          "email": "exemple@email.com",
+          "password": "12345678",
+          "created": "2022-02-17T23:53:25.727Z",
+          "tasks": []
+      }
     ```
   <br/>
 
@@ -182,43 +176,43 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks/2
 ##### `PUT` /user/:id
   <br/>
 
-  Esse endpoint atualiza um usuario.
+  Esse endpoint atualiza um usuario com o ID fornecido na rota e retorna um objeto com os dados atualizados.
 
   *Obs: Apenas o usuário que criou o usuario pode atualizar.*
 
   - Exemplo `request headers`
     ```json
-      {
-        "Authorization": "(Bearer Token)"
-      }
+        {
+          "Authorization": "(Bearer Token)"
+        }
     ```
 
   - Exemplo `request body` 
     ```json
-    {
-        "name": "name",
-        "lastName": "lastname",
-        "password": "12345678"
-    }
+      {
+          "name": "name",
+          "lastName": "lastname",
+          "password": "12345678"
+      }
     ```
 
   - Exemplo `response body`
     ```json
-    {
-        "name": "name",
-        "lastName": "lastname",
-        "password": "12345678"
-    }
+      {
+          "name": "name",
+          "lastName": "lastname",
+          "password": "12345678"
+      }
     ```
   <br/>
 
-### **Listar Todas as Provas**
-##### `GET` /api/tests
+### **Deleta um usuario**
+##### `DELETE` /user/:id
   <br/>
 
-  Esse endpoint retorna todas as provas criadas pelo usuário.
+  Esse endpoint deleta um usuario com o ID fornecido na rota e retorna um objeto com a mensagem `User deleted`.
 
-  *Obs: Apenas o usuário que criou as provas pode visualizar elas.*
+  *Obs: Apenas o usuário que criou o usuario pode deletar.*
 
   - Exemplo `request headers`
     ```json
@@ -229,38 +223,21 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks/2
 
   - Exemplo `response body`
     ```json
-      [
-        {
-          "id": 1,
-          "title": "prova 01",
-          "categorie": "tech",
-          "time_limit": 20,
-          "user_id": 1,
-          "created_at": "2021-09-29T13:05:26.370Z",
-          "updated_at": "2021-09-29T13:05:26.370Z",
-          "questions": []
-        },
-        {
-          "id": 2,
-          "title": "prova 02",
-          "categorie": "tech",
-          "time_limit": 20,
-          "user_id": 1,
-          "created_at": "2021-09-29T13:05:26.370Z",
-          "updated_at": "2021-09-29T13:05:26.370Z",
-          "questions": []
-        },
-      ]
+      {
+          "message": "User deleted"
+      }
     ```
   <br/>
 
-### **Atualizar uma Prova**
-##### `PUT` /api/tests/:id
+
+## POST /tasks - Retorna uma tarefa criada no banco de dados qunado enviado um token no header e um title, description, priority, dateLimit pelo body da requisicao.
+https://to-do-list-back-end-3456.herokuapp.com/tasks
+
+### **Cria uma tarefa**
+##### `POST` /tasks
   <br/>
 
-  Esse endpoint atualiza a prova com o ID fornecido na rota.
-
-  *Obs: Apenas o usuário que criou a prova pode alterar ela.*
+  Esse endpoint cria uma tarefa.
 
   - Exemplo `request headers`
     ```json
@@ -270,24 +247,26 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks/2
     ```
   - Exemplo `request body` 
     ``` json
-        {
-          "title": "prova 03",
-          "categorie": "RH",
-          "timeLimit": 25
-        }
+      {
+          "title": "title exemple",
+          "description": "description exemple",
+          "priority": "Alta",
+          "dateLimit": "2022-10-02"
+      }
     ```
 
   - Exemplo `response body`
     ```json
-        {
-          "title": "prova 03",
-          "categorie": "RH",
-          "time_limit": 25,
-          "user_id": 1,
-          "id": 1,
-          "created_at": "2021-09-29T13:05:26.370Z",
-          "updated_at": "2021-09-29T13:17:14.996Z",
-        }
+      {
+          "id": 71,
+          "title": "title exemple",
+          "description": "description exemple",
+          "priority": "Alta",
+          "dateLimit": "2022-10-02",
+          "userId": 26,
+          "created": "2022-02-18T00:44:02.803Z",
+          "categoryId": 1
+      }
     ```
   <br/>
 
