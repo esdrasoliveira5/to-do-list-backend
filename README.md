@@ -58,7 +58,7 @@
 
 - Comando para iniciar
   ```sh
-    docker image build -t todobackend
+    docker image build -t todobackend .
 
 - Comando para inserir as tabelas no banco de dados
   ```sh
