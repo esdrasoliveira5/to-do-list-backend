@@ -59,7 +59,7 @@ const getCategoryTasks = async (token, id) => {
   if (validToken.status) return validToken;
 
   const allConcludedTasks = await Tasks.findAll({
-    where: { [Op.and]: [{ category: id }, { userId: validToken.id }] },
+    where: { [Op.and]: [{ categoryId: id }, { userId: validToken.id }] },
     include: { model: Categories, as: 'categories' },
   });
 

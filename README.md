@@ -1,20 +1,5 @@
 # to-do-list-backend
 
-##  GET /tasks - Retorna todas as tarefas relacionadas a um usuario quando enviado um token. 
-https://to-do-list-back-end-3456.herokuapp.com/tasks
-
-## GET /tasks/:id - Retorna uma tarefa relacionada a um usuario quando enviado um token valido pelo header da requisicao e o id pelo parametro.
-https://to-do-list-back-end-3456.herokuapp.com/tasks/2
-
-## GET tasks/category/:id - Retorna todas as tarefas de um usuario de acordo com a sua categoria quando enviado o id por parametro e um token valido.
-https://to-do-list-back-end-3456.herokuapp.com/tasks/category/1
-
-## PUT /tasks/:id - Retorna um tarefa com os dados atualizados qunado enviado enviado um id pelo parametro, um token de autenticacao pelo header e title, description, priority, dateLimit pelo body da requisicao.
-https://to-do-list-back-end-3456.herokuapp.com/tasks/2
-
-## DELETE /tasks/:id - Retorna a mensagem 'Task deleted' e deleta uma tarefa quando enviado um id pelo parametro e um token valido pelo header da requisicao.
-https://to-do-list-back-end-3456.herokuapp.com/tasks/2
-
 # Tests API
 
 ## Sumário
@@ -77,7 +62,11 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks/2
 
 - Comando para iniciar
   ```sh
-    docker image build -t todobackend 
+    docker image build -t todobackend
+
+- Comando para inserir as categorias no banco de dados
+  ```sh
+    npx sequelize db:migrate   
 <br/>
 
 ## Documentação
@@ -145,7 +134,7 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks/2
     ```
   <br/>
 
-### **Pega um usuario**
+### **Lista um usuario**
 ##### `GET` /user/:id
   <br/>
 
@@ -229,15 +218,11 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks/2
     ```
   <br/>
 
-
-## POST /tasks - Retorna uma tarefa criada no banco de dados qunado enviado um token no header e um title, description, priority, dateLimit pelo body da requisicao.
-https://to-do-list-back-end-3456.herokuapp.com/tasks
-
 ### **Cria uma tarefa**
 ##### `POST` /tasks
   <br/>
 
-  Esse endpoint cria uma tarefa.
+  Esse endpoint cria uma tarefa e retorna um objeto com a tarefa criada.
 
   - Exemplo `request headers`
     ```json
@@ -270,13 +255,13 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks
     ```
   <br/>
 
-### **Deletar uma Prova**
-##### `DELETE` /api/tests/:id
+### **Lista todas as tarefas criadas**
+##### `GET` /tasks
   <br/>
   
-  Esse endpoint é responsável por deletar a prova com o ID fornecido na rota.
+  Esse endpoint retorna todas as tarefas relacionadas a um usuario.
 
-  *Obs: Apenas o usuário que criou a prova pode a deletar.*
+  *Obs: Apenas o usuario que criou as tarefas pode pegar as tarefas.*
 
   - Exemplo `request headers`
     ```json
@@ -287,18 +272,32 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks
 
   - Exemplo `response body`
     ```json
-      No content
+      [
+          {
+              "id": 71,
+              "title": "title exemple",
+              "description": "description exemple",
+              "priority": "Alta",
+              "dateLimit": "2022-10-02",
+              "userId": 26,
+              "created": "2022-02-18T00:44:02.803Z",
+              "categoryId": 1,
+              "categories": {
+                  "id": 1,
+                  "name": "Não iniciado"
+              }
+          }
+      ]
     ```
   <br/>
 
-### **Criação de Questões**
-##### `POST` /api/questions/:testId
+### **Lista uma tarefa especifica**
+##### `POST` /tasks/:id
   <br/>
 
-  Esse endpoint cria uma questão relacionada ao teste com o ID passado na rota.
+  Esse endpoint retorna uma terefa relacionada ao ID passado na rota.
 
-  *Obs: Apenas o usuário que criou a prova pode criar uma questão para ela.*
-  *Obs2: O campo "type" ainda não possui nenhuma aplicação prática, mas seria relacionado ao tipo da questão (Multipla escolha, Dissertação, Verdadeiro ou Falso).*
+  *Obs: Apenas o usuário que criou a tarefa pode pegá-la .*
 
   - Exemplo `request headers`
     ```json
@@ -306,36 +305,32 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks
         "Authorization": "(Bearer Token)"
       }
     ```
-  - Exemplo `request body`
-      ```json
+  - Exemplo `response body`
+    ```json
         {
-          "question": "que dia é o natal?",
-          "categorie": "conhecimento gerais",
-          "type": 1
+            "id": 71,
+            "title": "title exemple",
+            "description": "description exemple",
+            "priority": "Alta",
+            "dateLimit": "2022-10-02",
+            "userId": 26,
+            "created": "2022-02-18T00:44:02.803Z",
+            "categoryId": 1,
+            "categories": {
+                "id": 1,
+                "name": "Não iniciado"
+            }
         }
-      ```
-
-  - Exemplo `response body`
-    ```json
-      {
-        "question": "que dia é o natal?",
-        "categorie": "conhecimento gerais",
-        "type": 1,
-        "test": 1,
-        "id": 1,
-        "created_at": "2021-09-29T13:59:11.429Z",
-        "updated_at": "2021-09-29T13:59:11.429Z"
-      }
     ```
   <br/>
 
-### **Listar Todas as Questões**
-##### `GET` /api/questions/:testId
+### **Listar todas as tarefas de acordo com a categoria**
+##### `GET` tasks/category/:id
   <br/>
 
-  Esse endpoint retorna todas as questões criadas pelo usuário para a prova com o ID passada na rota.
+  Esse endpoint retorna todas as tarefas criadas pelo usuário relacionadas ao ID da categoria passado na rota.
 
-  *Obs: Apenas o usuário que criou as provas pode visualizar as questões.*
+  *Obs: Apenas o usuário que criou as tarefas pode visualizar.*
 
   - Exemplo `request headers`
     ```json
@@ -346,26 +341,32 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks
   - Exemplo `response body`
     ```json
       [
-        {
-          "id": 1,
-          "question": "que dia é o natal?",
-          "categorie": "conhecimento gerais",
-          "type": 1,
-          "created_at": "2021-09-29T13:59:11.429Z",
-          "updated_at": "2021-09-29T13:59:11.429Z",
-          "answers": []
-        }
+          {
+              "id": 71,
+              "title": "title exemple",
+              "description": "description exemple",
+              "priority": "Alta",
+              "dateLimit": "2022-10-02",
+              "userId": 26,
+              "created": "2022-02-18T00:44:02.803Z",
+              "categoryId": 1,
+              "categories": {
+                  "id": 1,
+                  "name": "Não iniciado"
+              }
+          }
       ]
     ```
   <br/>
 
-### **Atualizar Uma Questão**
-##### `PUT` /api/questions/:testId/:questionId
+
+### **Atualizar uma tarefa**
+##### `PUT` /tasks/:id
   <br/>
 
-  Esse endpoint é responsável por atualizar uma questão (questionId) da prova com o ID (testId) fornecido na rota.
+  Esse endpoint é responsável por atualizar uma tarefa com o ID fornecido na rota e retorna um objeto com as informacoes atualizadas.
 
-  *Obs: Apenas o usuário que criou a prova pode atualizar uma questão relacionada a ela.*
+  *Obs: Apenas o usuário que criou as tarefas pode atualizar.*
 
   - Exemplo `request headers`
     ```json
@@ -376,54 +377,32 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks
   - Exemplo `request body`
     ```json
       {
-        "question": "que dia é a páscoa?",
-        "categorie": "conhecimento gerais",
-        "type": 2
+          "title": "title exemple",
+          "description": "description exemple",
+          "priority": "Baixa",
+          "dateLimit": "2022-10-02"
       }
     ```
 
   - Exemplo `response body`
     ```json
-        {
-          "id": 1,
-          "question": "que dia é a páscoa?",
-          "categorie": "conhecimento gerais",
-          "type": 2,
-          "created_at": "2021-09-29T13:59:11.429Z",
-          "updated_at": "2021-09-29T14:09:46.586Z",
-          "answers": []
-        }
+      {
+          "title": "title exemple",
+          "description": "description exemple",
+          "priority": "baixa",
+          "dateLimit": "2022-10-02"
+      }
     ``` 
   <br/>
 
-### **Deletar Uma Questão**
-##### `DELETE` /api/questions/:testId/:questionId
+
+### **Atualizar a categoria de uma tarefa**
+##### `PUT` /category/:id
   <br/>
 
-  Esse endpoint é responsável por deletar uma questão (questionId) da prova com o ID (testId) fornecido na rota.
+  Esse endpoint é responsável por atualizar a categoria de uma tarefa com o ID fornecido na rota e retorna um objeto com a mensagem `Task updated`.
 
-  *Obs: Apenas o usuário que criou a prova pode deletar uma questão relacionada a ela.*
-
-  - Exemplo `request headers`
-    ```json
-      {
-        "Authorization": "(Bearer Token)"
-      }
-    ```
-
-  - Exemplo `response body`
-    ```json
-      No content
-    ```
-  <br/>
-
-### **Criação de Alternativas**
-##### `POST` /api/answers/:testId
- <br/>
-
-  Esse endpoint é responsável por criar uma alternativa para uma questão(question) da prova com o ID (testId) fornecido na rota.
-
-  *Obs: Apenas o usuário que criou a prova pode criar uma alternativa relacionada a uma questão dela.*
+  *Obs: Apenas o usuário que criou as tarefas pode atualizar.*
 
   - Exemplo `request headers`
     ```json
@@ -434,115 +413,25 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks
   - Exemplo `request body`
     ```json
       {
-        "answer": "Dia 25",
-        "isRight": true,
-        "question": 1
+          "categoryId": 1,
       }
     ```
 
   - Exemplo `response body`
     ```json
-        {
-          "answer": "Dia 25",
-          "is_right": true,
-          "question": 1,
-          "id": 1,
-          "created_at": "2021-09-28T17:50:29.152Z",
-          "updated_at": "2021-09-28T17:50:29.152Z"
-        }
+      {
+          "message": "Task updated"
+      }
     ``` 
   <br/>
 
-### **Listar Todas as Alternativas**
-##### `GET` /api/answers/:testId/:questionId
+### **Deletar uma tarefa**
+##### `DELETE` /tasks/:id
   <br/>
 
-    Esse endpoint é responsável por listar as alternativas relacionadas a questão(questionId) e a prova (testId).
+  Esse endpoint é responsável por deletar uma tarefa com o ID fornecido na rota e retorna um objeto com a mensagem `Task deleted`.
 
-  - Exemplo `request headers`
-    ```json
-      {
-        "Authorization": "(Bearer Token)"
-      }
-    ```
-  - Exemplo `response body`
-    ```json
-        [
-          {
-            "id": 1,
-            "answer": "Dia 25",
-            "is_right": true,
-            "created_at": "2021-09-28T13:27:11.126Z",
-            "updated_at": "2021-09-28T13:27:11.126Z"
-          },
-          {
-            "id": 2,
-            "answer": "Dia 29",
-            "is_right": false,
-            "created_at": "2021-09-28T13:28:11.274Z",
-            "updated_at": "2021-09-28T13:28:11.274Z"
-          }
-        ]
-    ```
-  <br/>
-
-### **Atualizar Uma Alternativa**
-##### `PUT` /api/answers/:testId/:id
-  <br/>
-
-    Esse endpoint é responsável por atualizar a alternativa(id) relacionada a prova (testId).
-
-  - Exemplo `request headers`
-    ```json
-      {
-        "Authorization": "(Bearer Token)"
-      }
-    ```
-  - Exemplo `request body`
-      ```json
-        {
-          "answer": "Dia 29",
-          "isRight": false,
-          "question": 1
-        }
-      ```
-
-  - Exemplo `response body`
-    ```json
-        {
-          "id": 2,
-          "answer": "Dia 29",
-          "is_right": false,
-          "created_at": "2021-09-28T17:50:29.152Z",
-          "updated_at": "2021-09-28T17:50:29.152Z"
-        }
-    ```
-  <br/>
-
-### **Deletar Uma Alternativa**
-##### `DELETE` /api/answers/:testId/:id
-  <br/>
-
-    Esse endpoint é responsável por deletar a alternativa(id) relacionada a prova (testId).
-
-  - Exemplo `request headers`
-    ```json
-      {
-        "Authorization": "(Bearer Token)"
-      }
-    ```
-  - Exemplo `response body`
-    ```json
-      No content
-    ```
-
-### **Enviar Uma Prova**
-##### `POST` /api/senttests/:testId
-  <br/>
-
-  Esse endpoint é responsável por enviar um email com o link do teste.
-
-  *Obs: Não há funcionamento prática nessa rota além de enviar um email com um link ficticio*
+  *Obs: Apenas o usuário que criou a tarefa pode deletar.*
 
   - Exemplo `request headers`
     ```json
@@ -551,22 +440,10 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks
       }
     ```
 
-  - Exemplo `request body`
-    ```json
-      {
-        "receiverEmail": "tiagopaz.dev@gmail.com"
-      }
-    ```
-
   - Exemplo `response body`
     ```json
       {
-        "sender": 1,
-        "receiver": "tiagopaz.dev@gmail.com",
-        "testId": 1,
-        "token": "token",
-        "id": 1,
-        "created_at": "2021-09-28T20:21:58.724Z",
-        "updated_at": "2021-09-28T20:21:58.724Z"
+          "message": "Task deleted"
       }
     ```
+  <br/>
