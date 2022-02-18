@@ -8,21 +8,19 @@
   - [Instruções para iniciar o projeto](#Intruções-para-iniciar-o-projeto)
 - [Documentação](#Documentação)
   - [Verifica o estado da Api](#Verifica-o-estado-da-Api)
-  - [Login](#Login)
-  - [Criação de Provas](#Criação-de-Provas) 
-  - [Listar Uma Prova](#Listar-Uma-Prova)
-  - [Listar Todas as Provas](#Listar-Todas-as-Provas)
-  - [Atualizar uma Prova](#Atualizar-uma-Prova)
-  - [Deletar uma Prova](#Deletar-uma-Prova)
-  - [Criação de Questões](#Criação-de-Questões)
-  - [Listar Todas as Questões](#Listar-Todas-as-Questões)
-  - [Atualizar Uma Questão](#Atualizar-Uma-Questão)
-  - [Deletar Uma Questão](#Deletar-Uma-Questão)
-  - [Criação de Alternativas](#Criação-de-Alternativas)
-  - [Listar Todas as Alternativas](#Listar-Todas-as-Alternativas)
-  - [Atualizar Uma Alternativa](#Atualizar-Uma-Alternativa)
-  - [Deletar Uma Alternativa](#Deletar-Uma-Alternativa)
-  - [Enviar Uma Prova](#Enviar-Uma-Prova)
+  - [Registrar usuário](#Registrar-usuário)
+  - [Login](#Login) 
+  - [Lista um usuário](#Lista-um-usuário)
+  - [Editar um usuário](#Editar-um-usuário)
+  - [Deleta um usuário](#Deleta-um-usuário)
+  - [Cria uma tarefa](#Cria-uma-tarefa)
+  - [Lista todas as tarefas criadas](#Lista-todas-as-tarefas-criadas)
+  - [Lista uma tarefa especifica](#Lista-uma-tarefa-especifica)
+  - [Listar todas as tarefas de acordo com a categoria](#Listar-todas-as-tarefas-de-acordo-com-a-categoria)
+  - [Atualizar uma tarefa](#Atualizar-uma-tarefa)
+  - [Atualizar a categoria de uma tarefa](#Atualizar-a-categoria-de-uma-tarefa)
+  - [Deletar uma tarefa](#Deletar-uma-tarefa)
+
 
 <br>
 
@@ -62,9 +60,13 @@
   ```sh
     docker image build -t todobackend
 
-- Comando para inserir as categorias no banco de dados
+- Comando para inserir as tabelas no banco de dados
   ```sh
     npx sequelize db:migrate   
+
+- Comando para inserir as categorias na tabela
+  ```sh
+    npx sequelize db:seed:all
 <br/>
 
 ## Documentação
@@ -85,7 +87,7 @@
     ```
   <br/>
 
-### **Registrar Usuário**
+### **Registrar usuário**
 ##### `POST` /user
 <br/>
 
@@ -132,7 +134,7 @@
     ```
   <br/>
 
-### **Lista um usuario**
+### **Lista um usuário**
 ##### `GET` /user/:id
   <br/>
 
@@ -159,7 +161,7 @@
     ```
   <br/>
 
-### **Editar um usuario**
+### **Editar um usuário**
 ##### `PUT` /user/:id
   <br/>
 
@@ -193,7 +195,7 @@
     ```
   <br/>
 
-### **Deleta um usuario**
+### **Deleta um usuário**
 ##### `DELETE` /user/:id
   <br/>
 
