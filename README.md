@@ -1,17 +1,5 @@
 # to-do-list-backend
 
-## GET / - Retorna a mensagem 'Api to-do list online!!'.
-https://to-do-list-back-end-3456.herokuapp.com/
-
-## POST /user - Retorna um token e cria um usuario quando e enviado um name, lastName email e password pelo body da requisicao. 
-https://to-do-list-back-end-3456.herokuapp.com/user
-
-## POST /login - Retorna um token quando enviando um email e uma password pelo body da requisicao.
-https://to-do-list-back-end-3456.herokuapp.com/login
-
-##  GET /user/:id - Retorna um usuario cadastrado quando enviado um token valido peloo header da requisicao.
-https://to-do-list-back-end-3456.herokuapp.com/user/3
-
 ## PUT /user/:id - Atualiza um usuario cadastrado quando enviado um um id como parametro um token no header e um name, lastName e password pelo body da requisicao.
 https://to-do-list-back-end-3456.herokuapp.com/user/1
 
@@ -127,12 +115,12 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks/2
 
   - Exemplo `request body` 
     ``` json
-  {
-      "name": "name",
-      "lastName": "lastname",
-      "email": "exemple@email.com",
-      "password": "12345678",
-  }
+    {
+        "name": "name",
+        "lastName": "lastname",
+        "email": "exemple@email.com",
+        "password": "12345678",
+    }
     ```
 
   - Exemplo `response body`
@@ -144,67 +132,57 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks/2
 <br/>
 
 ### **Login** 
-##### `POST` /api/users/login
+##### `POST` /login
   <br/>
 
-  Esse endpoint valida o login do usuário e retorna um objeto com alguns dados do usuário e o token de acesso dele.
+  Esse endpoint valida o login do usuário e retorna um objeto com o id do usuario e o token de acesso dele.
 
   - Exemplo `request body` 
     ``` json
-      {
-        "name": "tiago paz",
-        "email": "tiago22@email.com",
-        "password": "123456",
-      }
+    {
+        "email": "exemple@email.com",
+        "password": "12345678"
+    }
     ```
 
   - Exemplo `response body`
     ```json
-      {
-        {
-          "user": {
-            "name": "tiago paz",
-            "email": "tiago22@email.com",
-            "id": 1
-          },
-          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGlhZ28gcGF6IiwiZW1haWwiOiJ0aWFnbzIyQGVtYWlsLmNvbSIsImlkIjoxLCJpYXQiOjE2MzI4Mzk4NTIsImV4cCI6MTYzMjkyNjI1Mn0.ooXK7rodH3q2hF9OTSpmnfSH0M_ZHNMbm8ws5M7yB0k"
-        }
-      }
+    {
+        "userId": 25,
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiZXhlbXBsZUBlbWFpbC5jb20iLCJpYXQiOjE2NDUxNDI0NzksImV4cCI6MTY0NTc0NzI3OX0.sRZtnLnkGYHjhFBXJISTcX41QbvpGxll-wUnU-kGxyE"
+    }
     ```
   <br/>
-  
-### **Criação de Provas**
-##### `POST` /api/tests
+
+
+##  GET /user/:id - Retorna um usuario cadastrado quando enviado um token valido peloo header da requisicao.
+https://to-do-list-back-end-3456.herokuapp.com/user/3
+
+
+### **Pega um usuario**
+##### `GET` /user/:id
   <br/>
 
-  Esse endpoint cria uma prova e retorna o objeto criado.
+  Esse endpoint busca um usuario cadastrado pelo id.
 
   - Exemplo `request headers`
       ```json
-        {
-          "Authorization": "(Bearer Token)"
-        }
+    {
+      "Authorization": "(Bearer Token)"
+    }
       ```
-  - Exemplo `request body` 
-    ``` json
-        {
-          "title": "prova 01",
-          "categorie": "tech",
-          "timeLimit": 20
-        }
-    ```
 
   - Exemplo `response body`
     ```json
-        {
-          "title": "prova 01",
-          "categorie": "tech",
-          "time_limit": 20,
-          "user_id": 1,
-          "id": 3,
-          "created_at": "2021-09-29T13:05:26.370Z",
-          "updated_at": "2021-09-29T13:05:26.370Z",
-        }
+    {
+        "id": 25,
+        "name": "name",
+        "lastName": "lastname",
+        "email": "exemple@email.com",
+        "password": "12345678",
+        "created": "2022-02-17T23:53:25.727Z",
+        "tasks": []
+    }
     ```
   <br/>
 
