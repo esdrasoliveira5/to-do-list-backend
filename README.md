@@ -1,6 +1,4 @@
-# to-do-list-backend
-
-# Tests API
+# to-do list backend Api
 
 ## Sumário
 
@@ -9,7 +7,7 @@
   - [Instalação](#Instalação)
   - [Instruções para iniciar o projeto](#Intruções-para-iniciar-o-projeto)
 - [Documentação](#Documentação)
-  - [Registrar Usuário](#Registrar-Usuário)
+  - [Verifica o estado da Api](#Verifica-o-estado-da-Api)
   - [Login](#Login)
   - [Criação de Provas](#Criação-de-Provas) 
   - [Listar Uma Prova](#Listar-Uma-Prova)
