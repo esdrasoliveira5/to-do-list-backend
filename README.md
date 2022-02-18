@@ -1,8 +1,5 @@
 # to-do-list-backend
 
-## PUT /user/:id - Atualiza um usuario cadastrado quando enviado um um id como parametro um token no header e um name, lastName e password pelo body da requisicao.
-https://to-do-list-back-end-3456.herokuapp.com/user/1
-
 ## DELETE /user/:id - Retorna a mensagem 'User deleted' e deleta um usuario cadastrado quando enviado um id como parametro e um token valido pelo header da requisicao.
 https://to-do-list-back-end-3456.herokuapp.com/user/1
 
@@ -154,11 +151,6 @@ https://to-do-list-back-end-3456.herokuapp.com/tasks/2
     ```
   <br/>
 
-
-##  GET /user/:id - Retorna um usuario cadastrado quando enviado um token valido peloo header da requisicao.
-https://to-do-list-back-end-3456.herokuapp.com/user/3
-
-
 ### **Pega um usuario**
 ##### `GET` /user/:id
   <br/>
@@ -186,13 +178,13 @@ https://to-do-list-back-end-3456.herokuapp.com/user/3
     ```
   <br/>
 
-### **Listar Uma Prova**
-##### `GET` /api/tests/:id
+### **Editar um usuario**
+##### `PUT` /user/:id
   <br/>
 
-  Esse endpoint retorna a prova com o ID fornecido na rota.
+  Esse endpoint atualiza um usuario.
 
-  *Obs: Apenas o usuário que criou a prova pode visualizar ela.*
+  *Obs: Apenas o usuário que criou o usuario pode atualizar.*
 
   - Exemplo `request headers`
     ```json
@@ -201,18 +193,22 @@ https://to-do-list-back-end-3456.herokuapp.com/user/3
       }
     ```
 
+  - Exemplo `request body` 
+    ```json
+    {
+        "name": "name",
+        "lastName": "lastname",
+        "password": "12345678"
+    }
+    ```
+
   - Exemplo `response body`
     ```json
-        {
-          "id": 1,
-          "title": "prova 01",
-          "categorie": "tech",
-          "time_limit": 20,
-          "user_id": 1,
-          "created_at": "2021-09-29T13:05:26.370Z",
-          "updated_at": "2021-09-29T13:05:26.370Z",
-          "questions": []
-        }
+    {
+        "name": "name",
+        "lastName": "lastname",
+        "password": "12345678"
+    }
     ```
   <br/>
 
